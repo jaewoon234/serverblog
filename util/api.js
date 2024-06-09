@@ -13,6 +13,7 @@ class LocalApi {
         jaewoon: {
           name: "정재운",
           desc: "귀요미 재우니의 큐티뽀짝 블로그~~^^",
+          pw: "testjw",
           post: {
             1: {
               id: 1,
@@ -53,6 +54,12 @@ class LocalApi {
   getPostList = async (id) => {
     this.saveData();
     return this.blogData[id].post;
+  };
+
+  login = async (id, pw) => {
+    if (this.blogData[id]) {
+      return this.blogData[id].pw === pw;
+    } else return false;
   };
 }
 

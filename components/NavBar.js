@@ -8,13 +8,21 @@ export default function NavBar() {
 
   return (
     <>
-      {loginShow && <Login loginToggle={() => setLoginShow(false)} />}
+      {loginShow && (
+        <Login
+          loginToggle={() => setLoginShow(false)}
+          refresh={() => router.reload()}
+        />
+      )}
       <div className="w-full flex justify-center items-center text-base">
         <div className="w-4/5 flex justify-start items-center p-3 gap-2">
           <div className="bg-black text-white w-6 h-6 flex justify-center items-center font-fmm rounded-md cursor-pointer">
             b
           </div>
-          <div className="font-fmm text-xl cursor-pointer">{`${router.query.id}.Blog`}</div>
+          <div
+            className="font-fmm text-xl cursor-pointer"
+            onClick={() => router.push(`/${router.query.id}/posts`)}
+          >{`${router.query.id}.Blog`}</div>
         </div>
         <div className="flex items-center gap-4 cursor-pointer">
           <svg

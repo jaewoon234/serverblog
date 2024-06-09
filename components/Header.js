@@ -14,7 +14,7 @@ export default function Header({ router }) {
 
   return (
     <>
-      <div className="w-3/5 flex justify-start items-center pt-10 pb-3 gap-5">
+      <div className="w-full flex justify-start items-center pb-3 gap-5">
         <div className="p-3 rounded-full bg-gray-200 text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +22,7 @@ export default function Header({ router }) {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="size-28"
+            className="size-16 md:size-28"
           >
             <path
               strokeLinecap="round"
@@ -36,7 +36,7 @@ export default function Header({ router }) {
           <p className="text-base">{desc}</p>
         </div>
       </div>
-      <hr className="w-3/5" />
+      <hr className="w-full" />
     </>
   );
 }

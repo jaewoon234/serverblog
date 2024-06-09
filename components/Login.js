@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function Login({ loginToggle }) {
   return (
     <div className="relative animate-fade">
@@ -6,7 +8,7 @@ export default function Login({ loginToggle }) {
         <div className="absolute w-[350px] h-[300px] bg-white shadow-md p-4 flex flex-col justify-between">
           <div>
             <div
-              className="flex items-center justify-end text-gray-500"
+              className="flex items-center justify-end text-gray-500 cursor-pointer"
               onClick={() => loginToggle()}
             >
               <svg
@@ -26,21 +28,22 @@ export default function Login({ loginToggle }) {
             <p className="font-ng text-base mt-3 text-gray-600">
               이메일로 로그인
             </p>
-            <form className="flex border border-solid border-gray-200 font-ng text-sm mt-2">
+            <div className="flex border border-solid border-gray-200 font-ng text-sm mt-2">
               <input
                 className="w-4/5 px-3 py-2"
                 placeholder="이메일을 입력하세요."
               ></input>
-              <input
-                className="w-1/5 bg-[#12B886] text-white"
-                type="submit"
-                value="로그인"
-              />
-            </form>
+              <button
+                className="w-1/5 bg-[#12B886] text-white cursor-pointer"
+                onClick={() => {}}
+              >
+                로그인
+              </button>
+            </div>
           </div>
           <div className="flex items-center justify-end gap-1 font-ng text-sm text-[#12B886]">
             <p>아직 회원이 아니신가요?</p>
-            <p className="font-ngb">회원가입</p>
+            <p className="font-ngb cursor-pointer">회원가입</p>
           </div>
         </div>
       </div>

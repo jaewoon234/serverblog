@@ -1,14 +1,28 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "./Login";
+import Api from "@/util/api";
 
 export default function NavBar() {
   const router = useRouter();
   const [loginShow, setLoginShow] = useState(false);
+  const [login, setLogin] = useState(false);
+
+  useEffect(() => {
+    Api.isLogin().then((res) => setLogin(res));
+  }, []);
+
+  const loginClick = () => {
+    if (login) {
+      Api.logout().then((res) => router.reload());
+    } else {
+      setLoginShow(true);
+    }
+  };
 
   return (
     <>
-      {loginShow && (
+      {!login && loginShow && (
         <Login
           loginToggle={() => setLoginShow(false)}
           refresh={() => router.reload()}
@@ -40,10 +54,10 @@ export default function NavBar() {
             />
           </svg>
           <div
-            className="font-ng bg-black text-white px-3 py-1 rounded-full cursor-pointer"
-            onClick={() => setLoginShow(true)}
+            className="text-sm font-ng bg-black text-white px-3 py-1 rounded-full cursor-pointer"
+            onClick={() => loginClick()}
           >
-            로그인
+            {login ? "로그아웃" : "로그인"}
           </div>
         </div>
       </div>

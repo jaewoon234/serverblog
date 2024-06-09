@@ -1,14 +1,13 @@
 class LocalApi {
-  constructor() {
-    this.blogData = {};
-  }
+  constructor() {}
 
   getData = () => {
     return JSON.parse(localStorage.getItem("blogData"));
   };
 
   saveData = () => {
-    if (Object.keys(this.blogData).length == 0) {
+    if (!localStorage.getItem("blogData")) {
+      localStorage.setItem("login", JSON.stringify(false));
       this.blogData = {
         jaewoon: {
           name: "정재운",
@@ -42,8 +41,10 @@ class LocalApi {
           },
         },
       };
+      localStorage.setItem("blogData", JSON.stringify(this.blogData));
+    } else {
+      this.blogData = JSON.parse(localStorage.getItem("blogData"));
     }
-    localStorage.setItem("blogData", JSON.stringify(this.blogData));
   };
 
   getBlogData = async (id) => {
@@ -58,8 +59,20 @@ class LocalApi {
 
   login = async (id, pw) => {
     if (this.blogData[id]) {
-      return this.blogData[id].pw === pw;
+      if (this.blogData[id].pw === pw) {
+        localStorage.setItem("login", JSON.stringify(true));
+        return true;
+      }
     } else return false;
+  };
+
+  logout = async () => {
+    localStorage.setItem("login", JSON.stringify(false));
+    return true;
+  };
+
+  isLogin = async () => {
+    return JSON.parse(localStorage.getItem("login"));
   };
 }
 

@@ -26,7 +26,6 @@ export default function Login({ loginToggle, refresh }) {
         }
       });
     }
-    console.log(id, pw);
   };
   return (
     <div className="relative animate-fade">

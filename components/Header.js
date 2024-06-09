@@ -1,9 +1,22 @@
 import Api from "@/util/api";
 import { useEffect, useState } from "react";
 
-export default function Header({ router }) {
+const svg = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="size-3 text-gray-500 cursor-pointer"
+  >
+    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+  </svg>
+);
+
+export default function Header({ router, editable = false }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
+  const [chg, setChg] = useState(false);
+  const [eDesc, setEDesc] = useState("");
 
   useEffect(() => {
     Api.getBlogData(router.query.id).then((data) => {
@@ -11,6 +24,20 @@ export default function Header({ router }) {
       setDesc(data.desc);
     });
   }, []);
+
+  const changeDesc = () => {
+    setChg(true);
+  };
+
+  const saveDesc = () => {
+    Api.changeDesc(router.query.id, eDesc).then((res) => {
+      if (res) {
+        setChg(false);
+        setDesc(eDesc);
+        setEDesc("");
+      }
+    });
+  };
 
   return (
     <>
@@ -32,8 +59,39 @@ export default function Header({ router }) {
           </svg>
         </div>
         <div className="w-full flex flex-col justify-center items-start">
-          <p className="font-ngb text-2xl">{name}</p>
-          <p className="text-base">{desc}</p>
+          <div className="flex items-center font-ngb text-2xl gap-2">
+            {name}
+          </div>
+          {(() => {
+            if (chg) {
+              return (
+                <div className="flex justify-center items-center w-full font-ng">
+                  <div className="w-[90%] border border-solid border-gray-200">
+                    <input
+                      className="w-full px-1"
+                      value={eDesc.length > 0 ? eDesc : desc}
+                      onChange={(e) => setEDesc(e.target.value)}
+                    ></input>
+                  </div>
+                  <div className="w-[10%] bg-[#12B886] text-white">
+                    <button
+                      className="w-full flex justify-center items-center py-1 text-sm"
+                      onClick={() => saveDesc()}
+                    >
+                      저장
+                    </button>
+                  </div>
+                </div>
+              );
+            } else {
+              return (
+                <div className="flex items-center gap-2 text-base">
+                  <p>{desc}</p>
+                  {editable && <div onClick={() => changeDesc()}>{svg}</div>}
+                </div>
+              );
+            }
+          })()}
         </div>
       </div>
       <hr className="w-full" />

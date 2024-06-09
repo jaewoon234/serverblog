@@ -5,7 +5,7 @@ class LocalApi {
     return JSON.parse(localStorage.getItem("blogData"));
   };
 
-  saveData = () => {
+  loadData = () => {
     if (!localStorage.getItem("blogData")) {
       localStorage.setItem("login", JSON.stringify(false));
       this.blogData = {
@@ -47,13 +47,17 @@ class LocalApi {
     }
   };
 
+  saveData = () => {
+    localStorage.setItem("blogData", JSON.stringify(this.blogData));
+  };
+
   getBlogData = async (id) => {
-    this.saveData();
+    this.loadData();
     return this.blogData[id];
   };
 
   getPostList = async (id) => {
-    this.saveData();
+    this.loadData();
     return this.blogData[id].post;
   };
 
@@ -73,6 +77,12 @@ class LocalApi {
 
   isLogin = async () => {
     return JSON.parse(localStorage.getItem("login"));
+  };
+
+  changeDesc = async (id, desc) => {
+    this.blogData[id].desc = desc;
+    this.saveData();
+    return true;
   };
 }
 

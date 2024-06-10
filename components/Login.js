@@ -2,6 +2,7 @@ import Api from "@/util/api";
 import { useState } from "react";
 
 export default function Login({ loginToggle, refresh }) {
+  const [register, setRegister] = useState(false);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
@@ -52,7 +53,7 @@ export default function Login({ loginToggle, refresh }) {
             </div>
             <p className="font-ngb text-xl mt-7">로그인</p>
             <p className="font-ng text-base mt-3 text-gray-600">
-              이메일로 로그인
+              아이디로 로그인
             </p>
             <div
               className={`flex border border-solid ${
@@ -63,7 +64,7 @@ export default function Login({ loginToggle, refresh }) {
             >
               <input
                 className="w-full px-3 py-2"
-                placeholder="이메일을 입력하세요."
+                placeholder="아이디를 입력하세요."
                 onChange={(e) => {
                   setIdErr(false);
                   setId(e.target.value);

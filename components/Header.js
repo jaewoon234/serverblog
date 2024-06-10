@@ -27,6 +27,7 @@ export default function Header({ router, editable = false }) {
 
   const changeDesc = () => {
     setChg(true);
+    setEDesc(desc);
   };
 
   const saveDesc = () => {

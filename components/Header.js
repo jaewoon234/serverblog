@@ -16,7 +16,9 @@ export default function Header({ router, editable = false }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [chg, setChg] = useState(false);
+  const [nameChg, setNameChg] = useState(false);
   const [eDesc, setEDesc] = useState("");
+  const [eName, setEName] = useState("");
 
   useEffect(() => {
     Api.getBlogData(router.query.id).then((data) => {
@@ -27,7 +29,14 @@ export default function Header({ router, editable = false }) {
 
   const changeDesc = () => {
     setChg(true);
+    setNameChg(false);
     setEDesc(desc);
+  };
+
+  const changeName = () => {
+    setNameChg(true);
+    setChg(false);
+    setEName(name);
   };
 
   const saveDesc = () => {
@@ -36,6 +45,16 @@ export default function Header({ router, editable = false }) {
         setChg(false);
         setDesc(eDesc);
         setEDesc("");
+      }
+    });
+  };
+
+  const saveName = () => {
+    Api.changeName(router.query.id, eName).then((res) => {
+      if (res) {
+        setNameChg(false);
+        setName(eName);
+        setEName("");
       }
     });
   };
@@ -60,9 +79,36 @@ export default function Header({ router, editable = false }) {
           </svg>
         </div>
         <div className="w-full flex flex-col justify-center items-start">
-          <div className="flex items-center font-ngb text-2xl gap-2">
-            {name}
-          </div>
+          {(() => {
+            if (nameChg) {
+              return (
+                <div className="flex justify-center items-center w-full font-ng">
+                  <div className="w-[90%] border border-solid border-gray-200">
+                    <input
+                      className="w-full px-1 font-ngb text-2xl"
+                      value={eName.length > 0 ? eName : name}
+                      onChange={(e) => setEName(e.target.value)}
+                    ></input>
+                  </div>
+                  <div className="w-[10%] bg-[#12B886] text-white">
+                    <button
+                      className="w-full flex justify-center items-center py-1 text-sm"
+                      onClick={() => saveName()}
+                    >
+                      저장
+                    </button>
+                  </div>
+                </div>
+              );
+            } else {
+              return (
+                <div className="flex items-center gap-2 text-2xl font-ngb">
+                  <p>{name}</p>
+                  {editable && <div onClick={() => changeName()}>{svg}</div>}
+                </div>
+              );
+            }
+          })()}
           {(() => {
             if (chg) {
               return (

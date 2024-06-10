@@ -77,6 +77,22 @@ class LocalApi {
     } else return false;
   };
 
+  register = async (id, pw) => {
+    this.loadData();
+    if (this.blogData[id]) return false;
+
+    this.blogData[id] = {
+      name: id,
+      desc: `${id}님의 블로그`,
+      pw: pw,
+      post: {},
+    };
+
+    this.saveData();
+
+    return true;
+  };
+
   logout = async () => {
     localStorage.removeItem("login");
     return true;
@@ -84,6 +100,13 @@ class LocalApi {
 
   isLogin = async () => {
     return localStorage.getItem("login");
+  };
+
+  changeName = async (id, name) => {
+    this.loadData();
+    this.blogData[id].name = name;
+    this.saveData();
+    return true;
   };
 
   changeDesc = async (id, desc) => {
